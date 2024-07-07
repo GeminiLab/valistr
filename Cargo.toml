@@ -1,0 +1,35 @@
+[workspace]
+members = ["valistr_proc_macro"]
+exclude = ["examples"]
+
+[workspace.package]
+description = "Creating immutable string types with values validated with regexes."
+authors = [ "aarkegz <aarkegz@gmail.com>" ]
+license = "MIT"
+edition = "2021"
+version = "0.1.0-dev"
+repository = "https://github.com/GeminiLab/valistr/"
+include = [
+    "README.md",
+    "LICENSE",
+    "Cargo.toml",
+    "src/**/*",
+    "examples/**/*",
+]
+
+[package]
+name = "valistr"
+description.workspace = true
+authors.workspace = true
+license.workspace = true
+edition.workspace = true
+version.workspace = true
+repository.workspace = true
+include.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+valistr_proc_macro = { path = "valistr_proc_macro", version = "=0.1.0-dev" }
+paste = "1.0.15"
+regex = "1.10"
