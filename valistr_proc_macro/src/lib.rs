@@ -76,10 +76,7 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
     let mut getter_methods = quote!();
     for (_, group_name) in &named_groups {
         let group_name_ident = Ident::new(group_name, Span::call_site());
-        let get_method_ident = Ident::new(
-            &format!("get_{}", group_name),
-            Span::call_site(),
-        );
+        let get_method_ident = Ident::new(&format!("get_{}", group_name), Span::call_site());
         let get_method = quote!(
             pub fn #get_method_ident(&self) -> Option<&str> {
                 self.#group_name_ident.map(|(start, end)| &self.value[start..end])
@@ -98,7 +95,10 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
         new_fn_capture_group_mappers.append_all(capture_group_mapper);
     }
 
-    let named_group_names: Vec<_> = named_groups.iter().map(|(_, name)| Ident::new(name, Span::call_site())).collect();
+    let named_group_names: Vec<_> = named_groups
+        .iter()
+        .map(|(_, name)| Ident::new(name, Span::call_site()))
+        .collect();
     let new = quote!(
         pub fn new(value: impl Into<String>) -> Option<Self> {
             let validator = Self::validator();
@@ -109,9 +109,7 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
 
                 Some(Self {
                     value,
-                    #(
-                        #named_group_names,
-                    )*
+                    #(#named_group_names,)*
                 })
             } else {
                 None
