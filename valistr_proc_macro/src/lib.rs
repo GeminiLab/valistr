@@ -24,6 +24,7 @@ impl Parse for ValistrArgs {
     }
 }
 
+/// This procedural macro creates immutable string wrapper types with values validated with regexes.
 #[proc_macro_attribute]
 pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
     let mut input = parse_macro_input!(item as ItemStruct);
@@ -66,6 +67,7 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
 
     // create the `validator` method
     let validator = quote!(
+        #[doc = "The regex to validate the value."]
         pub fn validator() -> &'static regex::Regex {
             static VALIDATOR: std::sync::OnceLock<regex::Regex> = std::sync::OnceLock::new();
             VALIDATOR.get_or_init(|| regex::Regex::new(#regex_lit).unwrap())
@@ -78,6 +80,7 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
         let group_name_ident = Ident::new(group_name, Span::call_site());
         let get_method_ident = Ident::new(&format!("get_{}", group_name), Span::call_site());
         let get_method = quote!(
+            #[doc = concat!("Get the value of the capture group `", stringify!(#group_name_ident), "`.")]
             pub fn #get_method_ident(&self) -> Option<&str> {
                 self.#group_name_ident.map(|(start, end)| &self.value[start..end])
             }
@@ -100,6 +103,7 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
         .map(|(_, name)| Ident::new(name, Span::call_site()))
         .collect();
     let new = quote!(
+        #[doc = "Try to create a new instance of the struct from a value. Returns `None` if the value fails to validate with the regex."]
         pub fn new(value: impl Into<String>) -> Option<Self> {
             let validator = Self::validator();
             let value = value.into();

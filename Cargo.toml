@@ -3,7 +3,7 @@ members = ["valistr_proc_macro"]
 exclude = ["examples"]
 
 [workspace.package]
-description = "Creating immutable string types with values validated with regexes."
+description = "Creating immutable string wrapper types with values validated with regexes."
 authors = [ "aarkegz <aarkegz@gmail.com>" ]
 license = "MIT"
 edition = "2021"
