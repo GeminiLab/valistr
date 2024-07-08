@@ -89,7 +89,7 @@ checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
 
 [[package]]
 name = "valistr"
-version = "0.1.0-dev"
+version = "0.1.0"
 dependencies = [
  "paste",
  "regex",
@@ -98,7 +98,7 @@ dependencies = [
 
 [[package]]
 name = "valistr_proc_macro"
-version = "0.1.0-dev"
+version = "0.1.0"
 dependencies = [
  "proc-macro2",
  "quote",

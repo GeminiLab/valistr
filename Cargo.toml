@@ -7,7 +7,7 @@ description = "Creating immutable string wrapper types with values validated wit
 authors = [ "aarkegz <aarkegz@gmail.com>" ]
 license = "MIT"
 edition = "2021"
-version = "0.1.0-dev"
+version = "0.1.0"
 repository = "https://github.com/GeminiLab/valistr/"
 include = [
     "README.md",
@@ -30,6 +30,6 @@ include.workspace = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-valistr_proc_macro = { path = "valistr_proc_macro", version = "=0.1.0-dev" }
+valistr_proc_macro = { path = "valistr_proc_macro", version = "=0.1.0" }
 paste = "1.0.15"
 regex = "1.10"
