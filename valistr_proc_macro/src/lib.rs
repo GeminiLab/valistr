@@ -30,7 +30,7 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
     let mut input = parse_macro_input!(item as ItemStruct);
     let args = parse_macro_input!(attr as ValistrArgs);
 
-    if input.fields.len() > 0 {
+    if !input.fields.is_empty() {
         return quote_spanned!(input.fields.span() => compile_error!("Only unit structs are supported");).into();
     }
 
@@ -50,7 +50,7 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
         .capture_names()
         .enumerate()
         .filter_map(|(index, name)| {
-            name.filter(|name| utils::is_simple_ident(*name))
+            name.filter(|name| utils::is_simple_ident(name))
                 .map(|name| (index, name.to_string()))
         })
         .collect::<Vec<_>>();
@@ -84,7 +84,7 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
     let mut getter_methods = quote!();
     for (_, group_name) in &named_groups {
         let group_name_ident = Ident::new(group_name, Span::call_site());
-        let get_method_ident = Ident::new(&format!("get_{}", group_name), Span::call_site());
+        let get_method_ident = Ident::new(&format!("get_{group_name}"), Span::call_site());
         let get_method = quote!(
             #[doc = concat!("Get the value of the capture group `", stringify!(#group_name_ident), "`.")]
             pub fn #get_method_ident(&self) -> Option<&str> {

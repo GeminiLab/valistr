@@ -13,9 +13,7 @@ pub fn get_regex_reexport_path() -> Result<TokenStream, TokenStream> {
             Ok(quote!(valistr::reexport::regex))
         },
         Err(_) => {
-            let e = format!(
-                "Could not find the `valistr` crate in the dependencies."
-            );
+            let e = "Could not find the `valistr` crate in the dependencies.".to_string();
             Err(quote!(compile_error!(#e);))
         }
     }
@@ -28,9 +26,9 @@ pub fn ensure_regex_anchors(regex: &str) -> String {
 
     match (start_anchor_present, end_anchor_present) {
         (true, true) => regex.to_string(),
-        (true, false) => format!("{}$", regex),
-        (false, true) => format!("^{}", regex),
-        (false, false) => format!("^{}$", regex),
+        (true, false) => format!("{regex}$"),
+        (false, true) => format!("^{regex}"),
+        (false, false) => format!("^{regex}$"),
     }
 }
 
