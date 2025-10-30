@@ -8,10 +8,8 @@ pub fn get_regex_reexport_path() -> Result<TokenStream, TokenStream> {
         Ok(FoundCrate::Name(name)) => {
             let ident = format_ident!("{}", name);
             Ok(quote!(#ident::reexport::regex))
-        },
-        Ok(FoundCrate::Itself) => {
-            Ok(quote!(valistr::reexport::regex))
-        },
+        }
+        Ok(FoundCrate::Itself) => Ok(quote!(valistr::reexport::regex)),
         Err(_) => {
             let e = "Could not find the `valistr` crate in the dependencies.".to_string();
             Err(quote!(compile_error!(#e);))
