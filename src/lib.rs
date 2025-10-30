@@ -29,7 +29,8 @@
 //! assert!(AsciiLetters::new("Hello").is_some());
 //! assert!(AsciiLetters::new("Hello, world!").is_none());
 //! ```
-//!
+#![no_std]
+
 pub use valistr_proc_macro::valistr;
 
 #[doc(hidden)]
