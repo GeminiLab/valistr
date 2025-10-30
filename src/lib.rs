@@ -31,3 +31,9 @@
 //! ```
 //!
 pub use valistr_proc_macro::valistr;
+
+#[doc(hidden)]
+/// Re-export the `regex` crate.
+pub mod reexport {
+    pub use regex;
+}

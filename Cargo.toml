@@ -16,6 +16,18 @@ include = [
     "src/**/*",
     "examples/**/*",
 ]
+rust-version = "1.76"   # We set it same as `regex`.
+
+[workspace.dependencies]
+regex = "1.12"
+
+# `indexmap` is actually not directly used in this crate, but we should pin its version here to
+# avoid 2.12 (whose MSRV is too high) being selected in the workspace.
+#
+# `resolver.incompatible-rust-versions` can also solve this problem, but it requires Cargo 1.84+,
+# we can switch to that later when we want to raise the MSRV of this crate.
+indexmap = ">=2.11,<2.12"
+
 
 [package]
 name = "valistr"
@@ -26,10 +38,10 @@ edition.workspace = true
 version.workspace = true
 repository.workspace = true
 include.workspace = true
+rust-version.workspace = true
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 valistr_proc_macro = { path = "valistr_proc_macro", version = "=0.1.0" }
-paste = "1.0.15"
-regex = "1.10"
+regex.workspace = true

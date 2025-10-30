@@ -1,3 +1,26 @@
+use proc_macro2::TokenStream;
+use proc_macro_crate::{crate_name, FoundCrate};
+use quote::{format_ident, quote};
+
+/// Get the path to the `regex` re-exported by the `valistr` crate.
+pub fn get_regex_reexport_path() -> Result<TokenStream, TokenStream> {
+    match crate_name("valistr") {
+        Ok(FoundCrate::Name(name)) => {
+            let ident = format_ident!("{}", name);
+            Ok(quote!(#ident::reexport::regex))
+        },
+        Ok(FoundCrate::Itself) => {
+            Ok(quote!(valistr::reexport::regex))
+        },
+        Err(_) => {
+            let e = format!(
+                "Could not find the `valistr` crate in the dependencies."
+            );
+            Err(quote!(compile_error!(#e);))
+        }
+    }
+}
+
 /// Copy a regex pattern and ensure that it starts with the `^` anchor and ends with the `$` anchor.
 pub fn ensure_regex_anchors(regex: &str) -> String {
     let start_anchor_present = regex.starts_with('^');

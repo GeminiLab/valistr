@@ -34,6 +34,12 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
         return quote_spanned!(input.fields.span() => compile_error!("Only unit structs are supported");).into();
     }
 
+    // get the path to the regex re-exported by valistr
+    let regex_path = match utils::get_regex_reexport_path() {
+        Ok(path) => path,
+        Err(err) => return err.into(),
+    };
+
     // collect regex
     let regex_str = utils::ensure_regex_anchors(&args.regex);
     let regex_lit = syn::LitStr::new(&regex_str, Span::call_site());
@@ -68,9 +74,9 @@ pub fn valistr(attr: TokenStream1, item: TokenStream1) -> TokenStream1 {
     // create the `validator` method
     let validator = quote!(
         #[doc = "The regex to validate the value."]
-        pub fn validator() -> &'static regex::Regex {
-            static VALIDATOR: std::sync::OnceLock<regex::Regex> = std::sync::OnceLock::new();
-            VALIDATOR.get_or_init(|| regex::Regex::new(#regex_lit).unwrap())
+        pub fn validator() -> &'static #regex_path::Regex {
+            static VALIDATOR: std::sync::OnceLock<#regex_path::Regex> = std::sync::OnceLock::new();
+            VALIDATOR.get_or_init(|| #regex_path::Regex::new(#regex_lit).unwrap())
         }
     );
 
