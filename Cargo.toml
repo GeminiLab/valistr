@@ -7,7 +7,7 @@ description = "Creating immutable string wrapper types with values validated wit
 authors = [ "aarkegz <aarkegz@gmail.com>" ]
 license = "MIT"
 edition = "2021"
-version = "0.1.0"
+version = "0.2.0"
 repository = "https://github.com/GeminiLab/valistr/"
 include = [
     "README.md",
@@ -47,5 +47,5 @@ default = ["std"]
 std = ["regex/std"]
 
 [dependencies]
-valistr_proc_macro = { path = "valistr_proc_macro", version = "=0.1.0" }
+valistr_proc_macro = { path = "valistr_proc_macro", version = "=0.2.0" }
 regex.workspace = true

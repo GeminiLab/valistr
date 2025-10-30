@@ -3,4 +3,4 @@ name = "no-direct-regex-dep"
 edition = "2021"
 
 [dependencies]
-valistr_renamed = { package = "valistr", path = "../../../", version = "=0.1.0" }
+valistr_renamed = { package = "valistr", path = "../../../" }
